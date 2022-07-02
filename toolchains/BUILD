@@ -1,35 +1,36 @@
-# Defines a custom C++ toolchain that invokes the "fake" dummy_compiler_linker
-# script to simulate compiling and linking.
+# Defines a custom C++ MINGGW toolchain
 #
 # The point of this file is to show how we're defining a toolchain that triggers
-# with //platforms:custom_machine. These match because they both specify
-# @platforms//cpu:ppc.
+# with //platforms:windows_platform. These match because they both specify
+# @platforms//cpu:x86_64.
 
 # This is C++-specific overhead required for all C++ toolchains. See
 # toolchain_config.bzl for details.
-load("//toolchains:toolchain_config.bzl", "dummy_cc_toolchain_config")
-dummy_cc_toolchain_config(
-    name = "dummy-cc-toolchain-config",
+load("//toolchains:toolchain_config.bzl", "mingw_cc_toolchain_config")
+
+mingw_cc_toolchain_config(
+  name = "mingw-cc-toolchain-config",
 )
 
 filegroup(
-    name = "toolchain_files",
-    srcs = ["dummy_compiler_linker"])
+  name = "toolchain_files",
+)
 
 # Define our cc_toolchain
-# (https://docs.bazel.build/versions/master/be/c-cpp.html#cc_toolchain).
+# (https://bazel.build/reference/be/c-cpp#cc_toolchain).
 # The cc_toolchain rule is pre-defined by the C++ rule owners. It uses these
 # parameters to construct a ToolchainInfo provider, as required by Bazel's
 # platform/toolchain APIs.
 cc_toolchain(
-  name = "example_cc_toolchain_definition",
+  name = "mingw_cc_toolchain_definition",
   all_files = ":toolchain_files",
   compiler_files = ":toolchain_files",
   strip_files = ":toolchain_files",
   objcopy_files = ":toolchain_files",
   linker_files = ":toolchain_files",
   dwp_files = ":toolchain_files",
-  toolchain_config = ":dummy-cc-toolchain-config")
+  toolchain_config = ":mingw-cc-toolchain-config",
+)
 
 # Bazel's platform/toolchain APIs require this wrapper around the actual
 # toolchain defined above. It serves two purposes: declare which
@@ -42,8 +43,8 @@ cc_toolchain(
 # use a toolchain that matches whatever you set --platforms to at the command
 # line.
 toolchain(
-  name = "example_cc_toolchain",
-  toolchain = ":example_cc_toolchain_definition",
+  name = "mingw_cc_toolchain",
+  toolchain = ":mingw_cc_toolchain_definition",
   toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-  target_compatible_with = ["@platforms//cpu:ppc"],
+  target_compatible_with = ["@platforms//cpu:x86_64"],
 )  

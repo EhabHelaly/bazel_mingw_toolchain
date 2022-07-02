@@ -6,8 +6,8 @@
 # platform "@local_config_platform//:host".
 
 platform(
-    name = "custom_machine",
+    name = "windows_platform",
     constraint_values = [
-        "@platforms//cpu:ppc"
-    ]
+        "@platforms//cpu:x86_64"
+    ],
 )
