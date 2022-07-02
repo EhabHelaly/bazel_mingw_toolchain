@@ -1,5 +1,5 @@
-## **MINGW toolchain for bazel projects on windows**
-### This project shows how to use [platforms](https://bazel.build/docs/platforms) to define a custom MINGW toolchain. This project defines a x86_64-compatible C++ MINGW toolchain for windows (`//toolchains:mingw_cc_toolchain`) and a custom platform advertising x86_64 (`//platforms:windows_platform`).
+# **MINGW toolchain for bazel projects on windows**
+This project shows how to use [platforms](https://bazel.build/docs/platforms) to define a custom MINGW toolchain. This project defines a x86_64-compatible C++ MINGW toolchain for windows (`//toolchains:mingw_cc_toolchain`) and a custom platform advertising x86_64 (`//platforms:windows_platform`).
 
 ## **How to use:**
 for example let's start by creating the following bazel project that we want to build with MINGW toolchain
