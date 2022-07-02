@@ -18,6 +18,7 @@ cc_binary(
         "main.cpp"
     ],
 )
+
 ```
 
 **main.cpp** file
@@ -41,6 +42,7 @@ int main(int argc, char **argv)
 
    return(0);
 }
+
 ```
 
 and leave **.bazelrc** & **WORKSPACE** files empty for now
@@ -64,18 +66,21 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 git_repository(
     name = "mingw",
     remote = "https://github.com/EhabHelaly/bazel_mingw_toolchain.git",
-    branch = "master"
+    commit = "8750b126a1e45e6dbfc44c99887bb14e5de7d481",
+    shallow_since = "1656754688 +0200",
 )
+
 ```
 
-Second lets define build configurations to use the **MINGW toolchain** by adding the following lines to **.bazelrc** file and replace values of **MINGW_PATH** & **GCC_VERSION**  with compiler's local path & GCC version respectively
+Second lets define build configurations to use the **MINGW toolchain** by adding the following lines to **.bazelrc** file and replace values of **MINGW_PATH** & **GCC_VERSION**  with compiler's local path & GCC version respectively (```gcc -dumpversion``` command can be used to get GCC compiler version)
 ```py
 # build configurations
 build --incompatible_enable_cc_toolchain_resolution             # allow bazel to use custom toolchains
 build --platforms=@mingw//platforms:windows_platform            # tell bazel to build using the custom platform
 build --extra_toolchains=@mingw//toolchains:mingw_cc_toolchain  # tell bazel to build using the custom toolchain
-build --define=MINGW_PATH="C:/toolchains/TDM-GCC-64"            # replace with correct local toolchain path 
-build --define=GCC_VERSION="10.3.0"                             # replace with correct toolchain GCC version
+build --define=MINGW_PATH="C:/toolchains/TDM-GCC-64"            # var to set the correct local toolchain path 
+build --define=GCC_VERSION="10.3.0"                             # var to set the correct toolchain GCC version
+
 ```
 
 Now let's try to build & run with the **local MINGW toolchain** by typing the following command
