@@ -1,6 +1,6 @@
 # Defines the C++ settings that tell Bazel precisely how to construct C++
 # commands. This is unique to C++ toolchains: other languages don't require
-# anything like this. 
+# anything like this.
 #
 # See
 # https://bazel.build/docs/cc-toolchain-config-reference
@@ -21,8 +21,10 @@ load(
 def _impl(ctx):
     out = ctx.actions.declare_file(ctx.label.name)
     ctx.actions.write(out, "executable")
+
     # path to external MINGW Compiler (e.g: "C:/toolchains/TDM-GCC-64")
     MINGW_PATH = ctx.var.get("MINGW_PATH")
+
     # MINGW Compiler Version (e.g: "10.3.0")
     GCC_VERSION = ctx.var.get("GCC_VERSION")
 
@@ -38,7 +40,7 @@ def _impl(ctx):
             compiler = "gcc",
             abi_version = "gcc-" + GCC_VERSION,
             abi_libc_version = "nothing",
-            tool_paths = [              
+            tool_paths = [
                 tool_path(
                     name = "ar",
                     path = MINGW_PATH + "/bin/ar",
@@ -62,7 +64,7 @@ def _impl(ctx):
                 tool_path(
                     name = "nm",
                     path = MINGW_PATH + "/bin/nm",
-                ),  
+                ),
                 tool_path(
                     name = "objdump",
                     path = MINGW_PATH + "/bin/objdump",
@@ -84,7 +86,7 @@ def _impl(ctx):
                     category_name = "executable",
                     prefix = "",
                     extension = ".exe",
-                )
+                ),
             ],
         ),
         DefaultInfo(

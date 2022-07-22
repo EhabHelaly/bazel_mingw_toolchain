@@ -9,11 +9,11 @@
 load("//toolchains:toolchain_config.bzl", "mingw_cc_toolchain_config")
 
 mingw_cc_toolchain_config(
-  name = "mingw-cc-toolchain-config",
+    name = "mingw-cc-toolchain-config",
 )
 
 filegroup(
-  name = "toolchain_files",
+    name = "toolchain_files",
 )
 
 # Define our cc_toolchain
@@ -22,14 +22,14 @@ filegroup(
 # parameters to construct a ToolchainInfo provider, as required by Bazel's
 # platform/toolchain APIs.
 cc_toolchain(
-  name = "mingw_cc_toolchain_definition",
-  all_files = ":toolchain_files",
-  compiler_files = ":toolchain_files",
-  strip_files = ":toolchain_files",
-  objcopy_files = ":toolchain_files",
-  linker_files = ":toolchain_files",
-  dwp_files = ":toolchain_files",
-  toolchain_config = ":mingw-cc-toolchain-config",
+    name = "mingw_cc_toolchain_definition",
+    all_files = ":toolchain_files",
+    compiler_files = ":toolchain_files",
+    dwp_files = ":toolchain_files",
+    linker_files = ":toolchain_files",
+    objcopy_files = ":toolchain_files",
+    strip_files = ":toolchain_files",
+    toolchain_config = ":mingw-cc-toolchain-config",
 )
 
 # Bazel's platform/toolchain APIs require this wrapper around the actual
@@ -43,8 +43,8 @@ cc_toolchain(
 # use a toolchain that matches whatever you set --platforms to at the command
 # line.
 toolchain(
-  name = "mingw_cc_toolchain",
-  toolchain = ":mingw_cc_toolchain_definition",
-  toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-  target_compatible_with = ["@platforms//cpu:x86_64"],
-)  
+    name = "mingw_cc_toolchain",
+    target_compatible_with = ["@platforms//cpu:x86_64"],
+    toolchain = ":mingw_cc_toolchain_definition",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
